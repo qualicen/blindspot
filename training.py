@@ -16,7 +16,7 @@ from math import floor
 
 
 # No of empocs to train
-EPOCHS=150
+EPOCHS=2
 
 # Batch size
 BATCH_SIZE = 64
@@ -41,6 +41,7 @@ class Training:
 
   def loss(self,labels, logits):
     return tf.keras.losses.sparse_categorical_crossentropy(labels, logits, from_logits=True)
+    
 
 
   def build_model(self,batch_size):
@@ -68,8 +69,8 @@ class Training:
     dataset = sequences.map(self.split_input_target)
     dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
     size = floor(floor(text_as_int.size / (self.seq_length+1)) / BATCH_SIZE)
-
-	split_point = int(0.9*size)
+    
+    split_point = int(0.9*size)
 	
     self.train_set = dataset.take(split_point)
     self.val_set = dataset.skip(split_point)
@@ -79,7 +80,7 @@ class Training:
 
   def train(self,id, seq_length,hidden_size,embedding_dim,number_of_layers,dropout_ratio,recurrent_dropout_ratio,optimizer):
 
-    self.seq_length = 200
+    self.seq_length = seq_length
     self.hidden_size=hidden_size
     self.embedding_dim = embedding_dim
     self.number_of_layers=number_of_layers
@@ -105,12 +106,14 @@ class Training:
         filepath=checkpoint_prefix,
         save_weights_only=True,
         save_best_only=True,
-        monitor='loss',
+        monitor='val_loss',
         verbose=1
         )
+    stop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4)
 
 
-    history = model.fit(self.train_set, validation_data=self.val_set, epochs=EPOCHS, callbacks=[checkpoint_callback])
+
+    history = model.fit(self.train_set, validation_data=self.val_set, epochs=EPOCHS, callbacks=[checkpoint_callback, stop_callback])
     model = self.build_model(batch_size=1)
     model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
     model.build(tf.TensorShape([1, None]))
@@ -125,9 +128,11 @@ class Training:
       "number_of_layers={},\n"
       "dropout_ratio={},\n"
       "recurrent_dropout_ratio={},\n" 
-      "optimizer={}\n==============================\n\n".format(self.id,self.seq_length, self.hidden_size, 
+      "optimizer={},\n"
+      "history={}\n"
+      "\n==============================\n\n".format(self.id,self.seq_length, self.hidden_size, 
         self.embedding_dim, self.number_of_layers, self. dropout_ratio, 
-        self.recurrent_dropout_ratio,self.optimizer))
+        self.recurrent_dropout_ratio,self.optimizer,history.history))
 
 
     for ex in self.examples:
