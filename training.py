@@ -69,8 +69,10 @@ class Training:
     dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
     size = floor(floor(text_as_int.size / (self.seq_length+1)) / BATCH_SIZE)
 
-    self.train_set = dataset.take(floor(0.9*size))
-    self.val_set = dataset.skip(floor(0.9*size))
+	split_point = int(0.9*size)
+	
+    self.train_set = dataset.take(split_point)
+    self.val_set = dataset.skip(split_point)
 
     # Length of the vocabulary in chars
     self.vocab_size = len(self.vocab)
