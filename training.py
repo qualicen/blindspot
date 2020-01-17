@@ -16,7 +16,7 @@ from math import floor
 
 
 # No of empocs to train
-EPOCHS=2
+EPOCHS=150
 
 # Batch size
 BATCH_SIZE = 64
