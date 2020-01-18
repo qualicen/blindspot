@@ -138,8 +138,8 @@ class Training:
     for ex in self.examples:
       f.write(generate_text(model, ex, self.char2idx, self.idx2char))
       f.write("\n")
-      f.close()
 
+    f.close()
     shutil.rmtree(self.checkpointDir)
 
 

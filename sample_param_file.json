@@ -1,4 +1,4 @@
-[{"id":"1","seq_length":200,"hidden_size":1240,"embedding_dim":256,"number_of_layers":2,"dropout_ratio":0,"recurrent_dropout_ratio":0,"optimizer":"rmsprop"},
+[{"id":"1","seq_length":200,"hidden_size":200,"embedding_dim":256,"number_of_layers":2,"dropout_ratio":0,"recurrent_dropout_ratio":0,"optimizer":"rmsprop"},
 
   {"id":"2","seq_length":200,"hidden_size":1250,"embedding_dim":256,"number_of_layers":2,"dropout_ratio":0,"recurrent_dropout_ratio":0,"optimizer":"rmsprop"},
   {"id":"3","seq_length":200,"hidden_size":750,"embedding_dim":256,"number_of_layers":2,"dropout_ratio":0,"recurrent_dropout_ratio":0,"optimizer":"rmsprop"},
