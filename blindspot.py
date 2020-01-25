@@ -3,6 +3,7 @@ import sys
 import json
 import codecs
 from predict import Prediction
+from predict_server import PredictServer
 
 if len(sys.argv)<3:
   print("Usage blindspot data-file parameter-file test-suffix")
@@ -34,3 +35,10 @@ if mode == "predict":
   p = Prediction(model_file,vocab_file)
   print(p.predict(text))
 
+
+if mode == "predict_server":
+  vocab_file = sys.argv[2]
+  model_file = sys.argv[3]
+  text = sys.argv[4]
+  p = Prediction(model_file,vocab_file)
+  PredictServer(p)
