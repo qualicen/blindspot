@@ -39,6 +39,5 @@ if mode == "predict":
 if mode == "predict_server":
   vocab_file = sys.argv[2]
   model_file = sys.argv[3]
-  text = sys.argv[4]
   p = Prediction(model_file,vocab_file)
   PredictServer(p)

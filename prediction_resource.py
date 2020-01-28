@@ -7,6 +7,8 @@ class PredictionResource(Resource):
         self.prediction=kwargs['prediction']
     
     def get(self):
-        word= request.args.get("word")
-        return self.prediction.predict("{}|".format(word)),200
+        word = request.args.get("word")
+        description_raw = self.prediction.predict("{}|".format(word))
+        description = description_raw[description_raw.index("|")+1:description_raw.index("\n")]
+        return description,200
 
