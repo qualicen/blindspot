@@ -4,7 +4,7 @@ import json
 import codecs
 from predict import Prediction
 import numpy as np
-#from predict_server import PredictServer
+from predict_server import PredictServer
 
 np.random.seed(7)
 
