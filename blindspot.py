@@ -3,7 +3,10 @@ import sys
 import json
 import codecs
 from predict import Prediction
-from predict_server import PredictServer
+import numpy as np
+#from predict_server import PredictServer
+
+np.random.seed(7)
 
 if len(sys.argv)<3:
   print("Usage blindspot data-file parameter-file test-suffix")

@@ -12,4 +12,4 @@ class PredictServer:
         api.add_resource(PredictionResource,"/api/predict", resource_class_kwargs={'prediction':prediction})
         api.add_resource(WebAppResource,"/<path:path>")
 
-        app.run()
+        app.run(host= '0.0.0.0')

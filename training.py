@@ -99,6 +99,7 @@ class Training:
     model = self.build_model(BATCH_SIZE)
     model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
+    model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
     # Name of the checkpoint files
     checkpoint_prefix = os.path.join(self.checkpointDir, "ckpt_{epoch}")
 
@@ -117,7 +118,15 @@ class Training:
     model = self.build_model(batch_size=1)
     model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
     model.build(tf.TensorShape([1, None]))
-    model.save('{}/model.h5'.format(self.outputDir))
+    
+    model_json = model.to_json()
+    with open("{}/model_{}.json".format(self.outputDir,self.id), "w") as json_file:
+      json_file.write(model_json)
+    # serialize weights to HDF5
+    model.save_weights("{}/model_{}.h5".format(self.outputDir,self.id))
+
+
+    #model.save('{}/model_{}'.format(self.outputDir,self.id))
 
     f=codecs.open('{}/output_examples.txt'.format(self.outputDir),"w","utf-8")
 
@@ -140,7 +149,7 @@ class Training:
       f.write("\n")
 
     f.close()
-    shutil.rmtree(self.checkpointDir)
+#    shutil.rmtree(self.checkpointDir)
 
 
   
