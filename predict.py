@@ -17,7 +17,6 @@ class Prediction:
         vocab = sorted(set(text))
         self.char2idx = {u:i for i, u in enumerate(vocab)}
         self.idx2char = np.array(vocab)
-        print(self.char2idx)
 
     def predict(self, prefix):
         return generate_text(self.model,prefix,self.char2idx,self.idx2char)
