@@ -4,6 +4,10 @@ python blindspot.py train <path/to/training/data> <path/to/param/file> <path/to/
 
 To run the prediction webapp
 compile webapp with
+
+install node.js
+install angular-cli with npm install -g @angular/cli
+
 - cd webapp
 - ng build
 
