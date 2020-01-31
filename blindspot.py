@@ -13,22 +13,19 @@ if len(sys.argv)<3:
   exit()
   
 mode = sys.argv[1]
-if mode == "train":
+if mode == "train" or mode=="onlyexport":
   data_file = sys.argv[2]
   parameter_file = sys.argv[3]
   examples_file = sys.argv[4]
-
   with codecs.open(parameter_file,'r','utf-8') as f:
     params = json.load(f)
-
   with codecs.open(examples_file,'r','utf-8') as f:
     examples = json.load(f)
-
-
   t = Training(data_file=data_file,examples=examples)
 
   for p in params:
     print("Trying:{}".format(p))
+    p["only_export"]=(mode=="onlyexport")
     t.train(**p)
 
 if mode == "predict":
