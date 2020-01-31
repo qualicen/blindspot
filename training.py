@@ -67,7 +67,7 @@ class Training:
     char_dataset = tf.data.Dataset.from_tensor_slices(text_as_int)
     sequences = char_dataset.batch(self.seq_length+1, drop_remainder=True)
     dataset = sequences.map(self.split_input_target)
-    dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True)
+    dataset = dataset.shuffle(BUFFER_SIZE, reshuffle_each_iteration=False).batch(BATCH_SIZE, drop_remainder=True)
     size = floor(floor(text_as_int.size / (self.seq_length+1)) / BATCH_SIZE)
     
     split_point = int(0.9*size)
@@ -99,7 +99,7 @@ class Training:
     model = self.build_model(BATCH_SIZE)
     model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
-    model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
+    # model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
     # Name of the checkpoint files
     checkpoint_prefix = os.path.join(self.checkpointDir, "ckpt_{epoch}")
 
