@@ -78,7 +78,7 @@ class Training:
     # Length of the vocabulary in chars
     self.vocab_size = len(self.vocab)
 
-  def train(self,id, seq_length,hidden_size,embedding_dim,number_of_layers,dropout_ratio,recurrent_dropout_ratio,optimizer):
+  def train(self,id, seq_length,hidden_size,embedding_dim,number_of_layers,dropout_ratio,recurrent_dropout_ratio,optimizer,only_export=False):
 
     self.seq_length = seq_length
     self.hidden_size=hidden_size
@@ -97,59 +97,59 @@ class Training:
     self.prepareData()
 
     model = self.build_model(BATCH_SIZE)
-    model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
 
-    # model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
-    # Name of the checkpoint files
-    checkpoint_prefix = os.path.join(self.checkpointDir, "ckpt_{epoch}")
-
-    checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
-        filepath=checkpoint_prefix,
-        save_weights_only=True,
-        save_best_only=True,
-        monitor='val_loss',
-        verbose=1
-        )
-    stop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4)
-
-
-
-    history = model.fit(self.train_set, validation_data=self.val_set, epochs=EPOCHS, callbacks=[checkpoint_callback, stop_callback])
+    if not only_export:
+      model.compile(optimizer=self.optimizer, loss=self.loss, metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])
+      # Name of the checkpoint files
+      checkpoint_prefix = os.path.join(self.checkpointDir, "ckpt_{epoch}")
+      checkpoint_callback=tf.keras.callbacks.ModelCheckpoint(
+          filepath=checkpoint_prefix,
+          save_weights_only=True,
+          save_best_only=True,
+          monitor='val_loss',
+          verbose=1
+          )
+      stop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=4)
+      history = model.fit(self.train_set, validation_data=self.val_set, epochs=EPOCHS, callbacks=[checkpoint_callback, stop_callback])
+      
     model = self.build_model(batch_size=1)
-    model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
+
+    if not only_export:
+      model.load_weights(tf.train.latest_checkpoint(self.checkpointDir))
+
     model.build(tf.TensorShape([1, None]))
-    
     model_json = model.to_json()
     with open("{}/model_{}.json".format(self.outputDir,self.id), "w") as json_file:
       json_file.write(model_json)
-    # serialize weights to HDF5
-    model.save_weights("{}/model_{}.h5".format(self.outputDir,self.id))
+    
+    if not only_export:
+      # serialize weights to HDF5
+      model.save_weights("{}/model_{}.h5".format(self.outputDir,self.id))
 
 
-    #model.save('{}/model_{}'.format(self.outputDir,self.id))
+    if not only_export:
+      f=codecs.open('{}/output_examples.txt'.format(self.outputDir),"w","utf-8")
 
-    f=codecs.open('{}/output_examples.txt'.format(self.outputDir),"w","utf-8")
-
-    f.write("id={},\n"
-      "seq_length={},\n"
-      "hidden_size={},\n"
-      "embedding_dim={},\n"
-      "number_of_layers={},\n"
-      "dropout_ratio={},\n"
-      "recurrent_dropout_ratio={},\n" 
-      "optimizer={},\n"
-      "history={}\n"
-      "\n==============================\n\n".format(self.id,self.seq_length, self.hidden_size, 
-        self.embedding_dim, self.number_of_layers, self. dropout_ratio, 
-        self.recurrent_dropout_ratio,self.optimizer,history.history))
+      f.write("id={},\n"
+        "seq_length={},\n"
+        "hidden_size={},\n"
+        "embedding_dim={},\n"
+        "number_of_layers={},\n"
+        "dropout_ratio={},\n"
+        "recurrent_dropout_ratio={},\n" 
+        "optimizer={},\n"
+        "history={}\n"
+        "\n==============================\n\n".format(self.id,self.seq_length, self.hidden_size, 
+          self.embedding_dim, self.number_of_layers, self. dropout_ratio, 
+          self.recurrent_dropout_ratio,self.optimizer,history.history))
 
 
-    for ex in self.examples:
-      f.write(generate_text(model, ex, self.char2idx, self.idx2char))
-      f.write("\n")
+      for ex in self.examples:
+        f.write(generate_text(model, ex, self.char2idx, self.idx2char))
+        f.write("\n")
 
-    f.close()
-#    shutil.rmtree(self.checkpointDir)
+      f.close()
+      shutil.rmtree(self.checkpointDir)
 
 
   

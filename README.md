@@ -7,6 +7,7 @@ compile webapp with
 
 install node.js
 install angular-cli with npm install -g @angular/cli
+install build-angular npm install --save-dev @angular-devkit/build-angular
 
 - cd webapp
 - ng build
