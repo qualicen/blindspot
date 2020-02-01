@@ -1,0 +1,25 @@
+<div style="text-align:center">
+    <div class="question">Was ist <input class="searchTerm" #searchTerm> ?</div>
+    <button class="lookup" (click)="search(searchTerm.value)">Nachschlagen</button>
+    <div *ngIf="loading"><img src="assets/loading.gif" width="100px"/></div>
+    <div *ngIf="!loading && definition1" class="answer-label">
+        <p>Antwort:</p>
+        <table style="border:0;width:900px;margin-left:auto;margin-right:auto">
+            <tr>
+                <td style="vertical-align:middle">Option 1:</td>
+                <td><p class="answer-content">{{definition1.text}}</p></td>
+                <td><hidden-icon [isCorrect]="definition1.isCorrect"></hidden-icon></td>
+            </tr>
+            <tr>
+                <td style="width:700px">Option 2:</td>
+                <td><p class="answer-content">{{definition2.text}}</p></td>
+                <td><hidden-icon [isCorrect]="definition2.isCorrect"></hidden-icon></td>
+            </tr>
+            <tr>
+                <td>Option 3:</td>
+                <td><p class="answer-content">{{definition3.text}}</p></td>
+                <td><hidden-icon [isCorrect]="definition3.isCorrect"></hidden-icon></td>
+            </tr>
+        </table>
+    </div>
+</div>

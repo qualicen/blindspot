@@ -1,15 +1,5 @@
-<html>
-  <style>
-    .searchTerm { font-family:arial; font-size:20pt; padding:10px; color:darkorange; width: 500px}
-  </style>
-  <body>
-    <div style="text-align:center">
-      <div style="font-family:arial; font-size:20pt; color:teal;margin-top:200px">Was ist <input class="searchTerm" #searchTerm> ?</div>
-      <button style="margin-top:20px;margin-bottom:20px; padding:15px;background-color: teal;color:white;font-family:arial;font-size:20pt;border:none" (click)="search(searchTerm.value)">Nachschlagen</button>
-      <div *ngIf="loading"><img src="assets/loading.gif" width="100px"/></div>
-      <div *ngIf="!loading && definition" style="font-family:arial; font-size:20pt; color:teal;margin-top:100px"><p>Antwort:</p><p style="font-style: italic;color:darkorange">{{definition}}</p></div>
-    </div>
-  </body>
-</html>
+<mat-slide-toggle #onlypredict>Only Predict</mat-slide-toggle> 
+<choose *ngIf="!onlypredict.checked"></choose>
+<predict *ngIf="onlypredict.checked"></predict>
 
 

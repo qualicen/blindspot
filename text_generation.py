@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def generate_text(model, start_string, char2idx, idx2char):
+def generate_text(model, start_string, char2idx, idx2char, temperature=0.1):
     # Evaluation step (generating text using the learned model)
 
     # Number of characters to generate
@@ -12,11 +12,6 @@ def generate_text(model, start_string, char2idx, idx2char):
 
     # Empty string to store our results
     text_generated = []
-
-    # Low temperatures results in more predictable text.
-    # Higher temperatures results in more surprising text.
-    # Experiment to find the best setting.
-    temperature = 0.05
 
     # Here batch size == 1
     model.reset_states()

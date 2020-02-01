@@ -1,0 +1,5 @@
+.searchTerm { font-family:arial; font-size:20pt; padding:10px; color:darkorange; width: 500px}
+.question {font-family:arial; font-size:20pt; color:teal;margin-top:100px}
+.answer-label {font-family:arial; font-size:20pt; color:teal;margin-top:50px}
+.answer-content {font-style: italic;color:darkorange}
+.lookup {margin-top:20px;margin-bottom:20px; padding:15px;background-color: teal;color:white;font-family:arial;font-size:20pt;border:none}

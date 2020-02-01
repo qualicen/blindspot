@@ -14,7 +14,7 @@ class Prediction:
         json_file.close()
         self.model = tf.keras.models.model_from_json(loaded_model_json)
         # load weights into new model
-        self.model.load_weights("{}.h5".format(model_file))
+        #self.model.load_weights("{}.h5".format(model_file))
 #        self.model = tf.keras.models.load_model(model_file, compile=False)
       
     def loadVocabulary(self,vocabulary):

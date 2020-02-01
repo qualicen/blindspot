@@ -6,6 +6,16 @@ from predict import Prediction
 import numpy as np
 from predict_server import PredictServer
 
+def get_database_from_file(data_file):
+  db={}
+  dbcontent = codecs.open(data_file,'r',encoding='utf-8')
+  for line in dbcontent:
+    if '|' in line:
+      word,ex = line.split('|',maxsplit=1)
+      db[word.lower()]=ex.strip()
+  return db
+
+
 np.random.seed(7)
 
 if len(sys.argv)<3:
@@ -37,7 +47,10 @@ if mode == "predict":
 
 
 if mode == "predict_server":
-  vocab_file = sys.argv[2]
+  data_file = sys.argv[2]
   model_file = sys.argv[3]
-  p = Prediction(model_file,vocab_file)
-  PredictServer(p)
+  p = Prediction(model_file,data_file)
+  db = get_database_from_file(data_file)
+  PredictServer(p,db)
+
+

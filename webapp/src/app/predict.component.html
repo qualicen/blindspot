@@ -1,0 +1,6 @@
+<div style="text-align:center">
+    <div class="question">Was ist <input class="searchTerm" #searchTerm> ?</div>
+    <button class="lookup" (click)="search(searchTerm.value)">Nachschlagen</button>
+    <div *ngIf="loading"><img src="assets/loading.gif" width="100px"/></div>
+    <div *ngIf="!loading && definition" class="answer-label"><p>Antwort:</p><p class="answer-content">{{definition}}</p></div>
+</div>

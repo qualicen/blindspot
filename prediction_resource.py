@@ -9,6 +9,9 @@ class PredictionResource(Resource):
     def get(self):
         word = request.args.get("word")
         description_raw = self.prediction.predict("\n{}|".format(word))
-        description = description_raw[description_raw.index("|")+1:description_raw.index("\n",1)]
+        upper = description_raw.find("\n",1)
+        if upper < 0: 
+            upper = len(description_raw)
+        description = description_raw[description_raw.index("|")+1:]
         return description,200
 
