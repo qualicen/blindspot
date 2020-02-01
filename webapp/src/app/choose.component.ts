@@ -18,7 +18,7 @@ export class ChooseComponent {
     lookupUrl="/api/lookup"
 
     public search(text){
-        let params=new HttpParams().set('word', text)
+        let params=new HttpParams().set('word', text).set('temperature','0.2')
         this.loading=true
         forkJoin(
           this.httpClient.get(this.lookupUrl,{params}),

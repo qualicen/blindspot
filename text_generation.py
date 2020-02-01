@@ -19,6 +19,8 @@ def generate_text(model, start_string, char2idx, idx2char, temperature=0.1):
     # Empty string to store our results
     text_generated = []
 
+    print(temperature)
+
     # Here batch size == 1
     model.reset_states()
     for i in range(num_generate):
@@ -35,6 +37,6 @@ def generate_text(model, start_string, char2idx, idx2char, temperature=0.1):
         input_eval = tf.expand_dims([predicted_id], 0)
 
         text_generated.append(idx2char[predicted_id])
-        lock.release()
+    lock.release()
 
     return (start_string + ''.join(text_generated))

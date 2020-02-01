@@ -6,19 +6,16 @@
         <p>Antwort:</p>
         <table style="border:0;width:900px;margin-left:auto;margin-right:auto">
             <tr>
-                <td style="vertical-align:middle">Option 1:</td>
-                <td><p class="answer-content">{{definition1.text}}</p></td>
-                <td><hidden-icon [isCorrect]="definition1.isCorrect"></hidden-icon></td>
+                <td style="width:700px"><p class="answer-content">{{definition1.text}}</p></td>
+                <td style="vertical-align:middle;padding-left:20px"><hidden-icon [isCorrect]="definition1.isCorrect"></hidden-icon></td>
             </tr>
             <tr>
-                <td style="width:700px">Option 2:</td>
                 <td><p class="answer-content">{{definition2.text}}</p></td>
-                <td><hidden-icon [isCorrect]="definition2.isCorrect"></hidden-icon></td>
+		<td style="vertical-align:middle;padding-left:20px"><hidden-icon [isCorrect]="definition2.isCorrect"></hidden-icon></td>
             </tr>
             <tr>
-                <td>Option 3:</td>
                 <td><p class="answer-content">{{definition3.text}}</p></td>
-                <td><hidden-icon [isCorrect]="definition3.isCorrect"></hidden-icon></td>
+                <td style="vertical-align:middle;padding-left:20px"><hidden-icon [isCorrect]="definition3.isCorrect"></hidden-icon></td>
             </tr>
         </table>
     </div>

@@ -11,8 +11,9 @@ def get_database_from_file(data_file):
   dbcontent = codecs.open(data_file,'r',encoding='utf-8')
   for line in dbcontent:
     if '|' in line:
-      word,ex = line.split('|',maxsplit=1)
+      word,ex = line.split('|',1)
       db[word.lower()]=ex.strip()
+  dbcontent.close()
   return db
 
 

@@ -14,8 +14,7 @@ class Prediction:
         json_file.close()
         self.model = tf.keras.models.model_from_json(loaded_model_json)
         # load weights into new model
-        #self.model.load_weights("{}.h5".format(model_file))
-#        self.model = tf.keras.models.load_model(model_file, compile=False)
+        self.model.load_weights("{}.h5".format(model_file))
       
     def loadVocabulary(self,vocabulary):
         text = open(vocabulary, 'rb').read().decode(encoding='utf-8')
@@ -23,5 +22,5 @@ class Prediction:
         self.char2idx = {u:i for i, u in enumerate(vocab)}
         self.idx2char = np.array(vocab)
 
-    def predict(self, prefix):
-        return generate_text(self.model,prefix,self.char2idx,self.idx2char)
+    def predict(self, prefix, temperature=0.1):
+        return generate_text(self.model,prefix,self.char2idx,self.idx2char, temperature)
