@@ -1,6 +1,12 @@
 import tensorflow as tf
+import threading
+
+lock = threading.Lock()
 
 def generate_text(model, start_string, char2idx, idx2char, temperature=0.1):
+    
+
+    lock.acquire() # will block if lock is already held
     # Evaluation step (generating text using the learned model)
 
     # Number of characters to generate
@@ -29,5 +35,6 @@ def generate_text(model, start_string, char2idx, idx2char, temperature=0.1):
         input_eval = tf.expand_dims([predicted_id], 0)
 
         text_generated.append(idx2char[predicted_id])
+        lock.release()
 
     return (start_string + ''.join(text_generated))
